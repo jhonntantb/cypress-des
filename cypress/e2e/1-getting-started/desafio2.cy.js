@@ -34,24 +34,23 @@ describe('Testing module To Do List', () => {
     })
     it('Verify that the buttons "All", "Completed", "Active" and "Remove all" exist',() => {
         cy.get('button#all').should('exist')
-        cy.xpath('//*[text()="Active" and (@id="active")]').should('exist')
         cy.xpath('//button[@id="completed"]').should('exist')
+        cy.xpath('//*[text()="Active" and (@id="active")]').should('exist')
         cy.contains('Remove all').should('exist')
     })
     it('Delete a completed task',() => {
-        const taskComplete = "My complete task"
-        cy.get('#task').type(taskComplete)
+        cy.get('#task').type(listOfTasks.completeTask)
         cy.get('#sendTask').click()
-        cy.contains(taskComplete).should('exist').click()
-        cy.xpath(`//*[text()="${taskComplete}" and contains(@style,"text-decoration: line-through")]`).siblings().click()
+        cy.contains(listOfTasks.completeTask).should('exist').click()
+        cy.xpath(`//*[text()="${listOfTasks.completeTask}" and contains(@style,"text-decoration: line-through")]`).siblings().click()
     })
     it('Delete an active task',() => {
-        const taskActive = "My active task"
-        cy.get('#task').type(taskActive)
+        cy.get('#task').type(listOfTasks.activeTask)
         cy.get('#sendTask').click()
-        cy.xpath(`//*[text()="${taskActive}" and contains(@style,"none")]`).siblings().click()
+        cy.xpath(`//*[text()="${listOfTasks.activeTask}" and contains(@style,"none")]`).siblings().click()
     })
     after("remove all tasks Created", () => {
-        cy.get('#removeAll').click()
+        cy.get('#removeAll').should('exist')
+        cy.get('button#logout').click()
     })
 })
